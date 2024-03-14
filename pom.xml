@@ -15,6 +15,7 @@
 	<description>stu7dent management system using html in spring boot</description>
 	<properties>
 		<java.version>11</java.version>
+		<sonar.buildString>...</sonar.buildString>
 	</properties>
 	<dependencies>
 		<dependency>
