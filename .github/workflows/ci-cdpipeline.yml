@@ -27,37 +27,42 @@ jobs:
     
     - uses: Azure/docker-login@v1
       with:
-        login-server: devacrdemo123.azurecr.io         #ltimacrdemo.azurecr.io
+        login-server: ltimacrdemo.azurecr.io        #ltimacrdemo.azurecr.io
         username: ${{ secrets.REGISTRY_USERNAME }}      #LTIMacrdemo 
         password: ${{ secrets.REGISTRY_PASSWORD }}       #PtYZhec7Ph0P9tB/5d8R+VFfWVKmzTE0DZRvUTCWjL+ACRCqGTlR 
           
     - run: |
-         docker build . -t devacrdemo123.azurecr.io/githubaction-repo:latest
-         docker push devacrdemo123.azurecr.io/githubaction-repo:latest
+         docker build . -t ltimacrdemo.azurecr.io/githubaction-repo:latest
+         docker push ltimacrdemo.azurecr.io/githubaction-repo:latest
 
-    # - uses: azure/setup-kubectl@v2.0
+   
 
-    #      # Set the target AKS cluster.
-    # - uses: Azure/aks-set-context@v1
-    #   with:
-    #      creds: '${{ secrets.AZURE_CREDENTIALS }}'
-    #      cluster-name: contoso
-    #      resource-group: contoso-rg
+         # Set the target AKS cluster.
+    - uses: azure/login@v1
+      with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-    # - uses: Azure/k8s-create-secret@v1.1
-    #   with:
-    #      container-registry-url: contoso.azurecr.io
-    #      container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
-    #      container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-    #      secret-name: demo-k8s-secret
+    - uses: azure/aks-set-context@v3
+      with:
+          resource-group: Dev-Rg
+          cluster-name: '<cluster name>'
 
-    # - uses: Azure/k8s-deploy@v4
-    #   with:
-    #      action: deploy
-    #      manifests: |
-    #         manifests/deployment.yml
-    #         manifests/service.yml
-    #      images: |
-    #         demo.azurecr.io/k8sdemo:${{ github.sha }}
-    #      imagepullsecrets: |
-    #         demo-k8s-secret
+    - uses: Azure/k8s-create-secret@v1.1
+      with:
+         container-registry-url: ltimacrdemo.azurecr.io
+         container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
+         container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+         secret-name: githubaction-aks-secret
+
+    - uses: Azure/k8s-deploy@v4
+      with:
+          action: deploy
+          manifests: |
+             manifests/deployment.yml
+             manifests/service.yml
+          images: |
+             devacrdemo123.azurecr.io/githubaction-repo:latest
+          imagepullsecrets: |
+             githubaction-aks-secret
