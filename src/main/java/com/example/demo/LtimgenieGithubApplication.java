@@ -13,7 +13,7 @@ public class LtimgenieGithubApplication {
 	}
 	@RequestMapping("/")
         public String home() {
-                return "Hello World!";
+                return "Welcome to LTIMGenie 1.9";
 	}
 
 }
