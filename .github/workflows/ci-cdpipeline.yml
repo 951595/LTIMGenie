@@ -32,8 +32,8 @@ jobs:
         password: ${{ secrets.REGISTRY_PASSWORD }}       #PtYZhec7Ph0P9tB/5d8R+VFfWVKmzTE0DZRvUTCWjL+ACRCqGTlR 
           
     - run: |
-         docker build . -t ltimacrdemo.azurecr.io/githubaction-repo:latest
-         docker push ltimacrdemo.azurecr.io/githubaction-repo:latest
+         docker build . -t devacrdemo123.azurecr.io/githubaction-repo:latest
+         docker push devacrdemo123.azurecr.io/githubaction-repo:latest
 
     # - uses: azure/setup-kubectl@v2.0
 
