@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment      # Kubernetes resource kind we are creating
 metadata:
-  name: ltimgenie-java
+  name: githubactions-aks
 spec:
   selector:
     matchLabels:
-      app: ltimgenie-java
+      app: githubactions-aks
   replicas: 2                     # Number of replicas that will be created for this deployment
   template:
     metadata:
       labels:
-        app: ltimgenie-java
+        app: githubactions-aks
     spec:
       containers:
-        - name: ltimgenie-java
-          image:       #springboot-k8s-example:1.0 
+        - name: githubactions-aks
+          image: devacrdemo123.azurecr.io/githubaction-repo:latest       
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080 
