@@ -15,7 +15,7 @@
 	<description>stu7dent management system using html in spring boot</description>
 	<properties>
 		<java.version>11</java.version>
-		<sonar.buildString>...</sonar.buildString>
+		<sonar.buildString>[...]</sonar.buildString>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -41,6 +41,11 @@
 					</image>
 				</configuration>
 			</plugin>
+			   <plugin>
+				   <groupId>org.sonarsource.scanner.maven</groupId>
+				   <artifactId>sonar-maven-plugin</artifactId>
+				   <version>3.7.0.1746</version>
+			   </plugin>
 		</plugins>
 	</build>
 
