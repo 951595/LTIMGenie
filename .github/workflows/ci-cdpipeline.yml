@@ -22,6 +22,11 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
+    - name: Build with Maven cloud
+      run:  mvn -B verify sonar:sonar -Dsonar.projectKey=sonarcloud-org2024 -Dsonar.organization=sonarcloud-org2024 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONARCLOUD_TOKEN
+      env:
+        GIT_HUB_TOKEN: ${{ secrets.GIT_HUB_TOKEN }}
+        SONARCLOUD_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
     - name: Build with Maven
       run: mvn -B install --file pom.xml
     - uses: actions/upload-artifact@v4
@@ -31,9 +36,9 @@ jobs:
     
     - uses: Azure/docker-login@v1
       with:
-        login-server: ltimacrdemo.azurecr.io        #ltimacrdemo.azurecr.io
-        username: ${{ secrets.REGISTRY_USERNAME }}      #LTIMacrdemo 
-        password: ${{ secrets.REGISTRY_PASSWORD }}       #PtYZhec7Ph0P9tB/5d8R+VFfWVKmzTE0DZRvUTCWjL+ACRCqGTlR 
+        login-server: ltimacrdemo.azurecr.io       
+        username: ${{ secrets.REGISTRY_USERNAME }}      
+        password: ${{ secrets.REGISTRY_PASSWORD }}       
           
     - run: |
          docker build . -t ltimacrdemo.azurecr.io/githubaction-repo:latest
@@ -41,36 +46,18 @@ jobs:
 
    
 
-         # Set the target AKS cluster.
-    # - uses: azure/login@v1
-    #   with:
-    #       client-id: ${{ secrets.AZURE_CLIENT_ID }}
-    #       tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-    #       subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-    #       enable-AzPSSession: true
+    # Set the target AKS cluster.
     - uses: azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
         
-    # - name: Azure CLI script
-    #   uses: azure/CLI@v1
-    #   with:
-    #       azcliversion: latest
-    #       inlineScript: |
-    #         az login --service-principal -u 1d457f67-8c31-452e-87b0-cbfdc4e04fa0 -p WIe8Q~OB5RsDtaZHbulRnOUbW7u.GwuPCo1STc3a --tenant f54e126c-2135-47cf-9d04-3b65e9abcaac
-
+  
     - uses: azure/aks-set-context@v3
       with:
           resource-group: Dev-Rg
           cluster-name: dev-aks
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-    # - name: Azure CLI script
-    #   uses: azure/CLI@v1
-    #   with:
-    #       azcliversion: latest
-    #       inlineScript: |
-    #          az aks get-credentials --resource-group Dev-Rg --name dev-aks kubelogin convert-kubeconfig -l azurecli
-
+   
     - uses: Azure/k8s-create-secret@v1.1
       with:
          container-registry-url: ltimacrdemo.azurecr.io
