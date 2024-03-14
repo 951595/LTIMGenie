@@ -29,5 +29,8 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B install --file pom.xml
-
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Artifacts
+        path: ./LTIMGenie/target/ltimgenie-github-0.0.1-SNAPSHOT.jar
     
