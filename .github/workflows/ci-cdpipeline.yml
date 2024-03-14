@@ -28,8 +28,8 @@ jobs:
     - uses: Azure/docker-login@v1
       with:
         login-server: ltimacrdemo.azurecr.io
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
+        username: LTIMacrdemo 
+        password: PtYZhec7Ph0P9tB/5d8R+VFfWVKmzTE0DZRvUTCWjL+ACRCqGTlR 
           
     - run: |
          docker build . -t ltimacrdemo.azurecr.io/githubaction-repo:latest
