@@ -55,10 +55,16 @@ jobs:
           inlineScript: |
             az login --service-principal -u 1d457f67-8c31-452e-87b0-cbfdc4e04fa0 -p WIe8Q~OB5RsDtaZHbulRnOUbW7u.GwuPCo1STc3a --tenant f54e126c-2135-47cf-9d04-3b65e9abcaac
 
-    - uses: azure/aks-set-context@v3
+    # - uses: azure/aks-set-context@v3
+    #   with:
+    #       resource-group: Dev-Rg
+    #       cluster-name: dev-aks
+    - name: Azure CLI script
+      uses: azure/CLI@v1
       with:
-          resource-group: Dev-Rg
-          cluster-name: dev-aks
+          azcliversion: latest
+          inlineScript: |
+             az aks get-credentials --resource-group Dev-Rg --name dev-aks kubelogin convert-kubeconfig -l azurecli
 
     - uses: Azure/k8s-create-secret@v1.1
       with:
