@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment      # Kubernetes resource kind we are creating
+metadata:
+  name: ltimgenie-java
+spec:
+  selector:
+    matchLabels:
+      app: ltimgenie-java
+  replicas: 2                     # Number of replicas that will be created for this deployment
+  template:
+    metadata:
+      labels:
+        app: ltimgenie-java
+    spec:
+      containers:
+        - name: ltimgenie-java
+          image:       #springboot-k8s-example:1.0 
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080 
