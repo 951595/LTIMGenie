@@ -1,5 +1,5 @@
 
-name: Java CI with Maven
+name: CICD Pipeline for java project using github-actions
 on:
   push:
     branches: [ "main" ]
